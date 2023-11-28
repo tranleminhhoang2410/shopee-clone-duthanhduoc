@@ -43,7 +43,28 @@ export default function Header() {
               <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />
             </svg>
           </Popover>
-          <div className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'>
+          <Popover
+            className='flex items-center py-1 hover:text-gray-300 cursor-pointer ml-6'
+            renderPopover={
+              <div>
+                <Link
+                  to='/'
+                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:textt-cyan-500 w-full text-left bg-white shadow-sm'
+                >
+                  Tài khoản của tôi
+                </Link>
+                <Link
+                  to='/'
+                  className='block py-3 px-4 hover:bg-slate-100 bg-white hover:textt-cyan-500 w-full text-left bg-white shadow-sm'
+                >
+                  Đơn mua
+                </Link>
+                <button className='block py-3 px-4 hover:bg-slate-100 bg-white hover:textt-cyan-500 w-full text-left bg-white shadow-sm'>
+                  Đăng xuất
+                </button>
+              </div>
+            }
+          >
             <div className='w-6 h-6 mr-2 flex-shrink-0'>
               <img
                 src='https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp'
@@ -52,7 +73,7 @@ export default function Header() {
               />
             </div>
             <span>hoangtranle</span>
-          </div>
+          </Popover>
         </div>
         <div className='grid grid-cols-12 gap-4 mt-4 items-end'>
           <Link to='/' className='col-span-2'>
