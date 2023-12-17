@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 import { schema, Schema } from '../../utils/validation'
 import Input from '../../components/Input'
-import { registerAccount } from '../../api/auth'
+import authApi from '../../api/auth'
 import { isAxiosUnprocessableEntityError } from '../../utils/utils'
 import { ErrorResponse } from '../../types/utils'
 import { useContext } from 'react'
@@ -26,6 +26,7 @@ export default function Register() {
     setError,
     formState: { errors }
   } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { registerAccount } = authApi
 
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
