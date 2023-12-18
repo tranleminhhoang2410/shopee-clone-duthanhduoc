@@ -1,29 +1,56 @@
-import { Link } from 'react-router-dom'
+import { Link, createSearchParams } from 'react-router-dom'
 import path from '../../../constants/path'
 import Input from '../../../components/Input'
 import Button from '../../../components/Button'
+import { QueryConfig } from '../ProductList'
+import { Category } from '../../../types/category'
+import classNames from 'classnames'
 
-export default function AsideFilter() {
+interface AsideFilterProps {
+  queryConfig: QueryConfig
+  categories: Category[]
+}
+export default function AsideFilter({ queryConfig, categories }: AsideFilterProps) {
+  const { category } = queryConfig
+
   return (
     <div className='py-4'>
-      <Link to={path.home} className='flex items-center font-bold'>
+      <Link
+        to={path.home}
+        className={classNames('flex items-center font-bold', {
+          'text-orange': !category
+        })}
+      >
         Tất cả danh mục
       </Link>
       <div className='bg-gray-300 h-[1px] my-4'></div>
       <ul>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2 text-orange font-semibold'>
-            <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
-              <polygon points='4 3.5 0 0 0 7' />
-            </svg>
-            Thời trang nam
-          </Link>
-        </li>
-        <li className='py-2 pl-2'>
-          <Link to={path.home} className='relative px-2'>
-            Điện thoại
-          </Link>
-        </li>
+        {categories.map((categoryItem) => {
+          const isActive = category === categoryItem._id
+          return (
+            <li key={categoryItem._id} className='py-2 pl-2'>
+              <Link
+                to={{
+                  pathname: path.home,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    category: categoryItem._id
+                  }).toString()
+                }}
+                className={classNames('relative px-2', {
+                  'text-orange font-semibold': isActive
+                })}
+              >
+                {isActive && (
+                  <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
+                    <polygon points='4 3.5 0 0 0 7' />
+                  </svg>
+                )}
+                {categoryItem.name}
+              </Link>
+            </li>
+          )
+        })}
       </ul>
       <Link to={path.home} className='flex items-center font-bold mt-4 uppercase'>
         Bộ lọc tìm kiếm
