@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 
-import { loginSchema, LoginSchema } from '../../utils/validation'
+import { schema, Schema } from '../../utils/validation'
 import Input from '../../components/Input'
 import authApi from '../../api/auth'
 import { isAxiosUnprocessableEntityError } from '../../utils/utils'
@@ -12,7 +12,9 @@ import { useContext } from 'react'
 import { AppContext } from '../../contexts/app.context'
 import Button from '../../components/Button'
 
-type FormData = LoginSchema
+type FormData = Pick<Schema, 'email' | 'password'>
+const loginSchema = schema.pick(['email', 'password'])
+
 export default function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()

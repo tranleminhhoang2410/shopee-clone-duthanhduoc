@@ -16,7 +16,9 @@ import Button from '../../components/Button'
 //   password: string
 //   confirm_password: string
 // }
-type FormData = Schema
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
+const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
+
 export default function Register() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
@@ -25,7 +27,7 @@ export default function Register() {
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<FormData>({ resolver: yupResolver(schema) })
+  } = useForm<FormData>({ resolver: yupResolver(registerSchema) })
   const { registerAccount } = authApi
 
   const registerAccountMutation = useMutation({
