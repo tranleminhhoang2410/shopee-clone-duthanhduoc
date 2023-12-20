@@ -5,6 +5,7 @@ module.exports = {
   env: { browser: true, es2015: true, node: true },
   extends: [
     'eslint:recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'eslint-config-prettier',
