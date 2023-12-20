@@ -3,6 +3,7 @@ import RegisterLayout from '../layouts/RegisterLayout/RegisterLayout'
 import MainLayout from '../layouts/MainLayout'
 import Profile from '../pages/Profile'
 import ProductList from '../pages/ProductList'
+import ProductDetails from '../pages/ProductDetails'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import { useContext } from 'react'
@@ -27,6 +28,15 @@ export default function useRoutesElement() {
       element: (
         <MainLayout>
           <ProductList />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.productDetails,
+      index: true,
+      element: (
+        <MainLayout>
+          <ProductDetails />
         </MainLayout>
       )
     },

@@ -8,7 +8,13 @@ export const isAxiosUnprocessableEntityError = <FormError>(error: unknown): erro
 
 export const formatCurrency = (currency: number) => new Intl.NumberFormat('de-DE').format(currency)
 
-export const formatNumberToSocialStyle = (value: number) => new Intl.NumberFormat('en', {
-  notation: 'compact',
-  maximumFractionDigits: 1
-}).format(value).replace('.', ',').toLowerCase()
+export const formatNumberToSocialStyle = (value: number) =>
+  new Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  })
+    .format(value)
+    .replace('.', ',')
+    .toLowerCase()
+
+export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + '%'
