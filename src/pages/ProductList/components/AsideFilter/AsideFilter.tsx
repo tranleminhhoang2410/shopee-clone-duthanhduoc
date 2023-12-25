@@ -1,7 +1,7 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'
 import Button from '../../../../components/Button'
-import { QueryConfig } from '../../ProductList'
+import { QueryConfig } from '../../../../hooks/useQueryConfig'
 import { Category } from '../../../../types/category'
 import classNames from 'classnames'
 import InputNumber from '../../../../components/InputNumber'

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { sortBy, order as orderConstant } from '../../../../constants/product'
-import { QueryConfig } from '../../ProductList'
+import { QueryConfig } from '../../../../hooks/useQueryConfig'
 import { ProductListConfig } from '../../../../types/product'
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'

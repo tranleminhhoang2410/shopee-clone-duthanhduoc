@@ -8,10 +8,6 @@ import { ProductListConfig } from '../../types/product'
 import categoryApi from '../../api/category'
 import useQueryConfig from '../../hooks/useQueryConfig'
 
-export type QueryConfig = {
-  [key in keyof ProductListConfig]: string
-}
-
 export default function ProductList() {
   const queryConfig = useQueryConfig()
 
@@ -30,7 +26,8 @@ export default function ProductList() {
     queryFn: () => {
       return getCategories()
     },
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    staleTime: 3 * 60 * 1000
   })
 
   return (
