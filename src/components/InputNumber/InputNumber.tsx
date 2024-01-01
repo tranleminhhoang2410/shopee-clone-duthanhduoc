@@ -19,6 +19,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
   ref
 ) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const { value } = event?.target
     if ((/^\d+$/.test(value) || value === '') && onChange) {
       onChange(event)

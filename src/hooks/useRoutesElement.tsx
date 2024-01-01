@@ -1,14 +1,14 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import RegisterLayout from '../layouts/RegisterLayout/RegisterLayout'
-import MainLayout from '../layouts/MainLayout'
-import Profile from '../pages/Profile'
-import ProductList from '../pages/ProductList'
-import ProductDetails from '../pages/ProductDetails'
-import Login from '../pages/Login'
-import Register from '../pages/Register'
+import RegisterLayout from '@/layouts/RegisterLayout/RegisterLayout'
+import MainLayout from '@/layouts/MainLayout'
+import Profile from '@/pages/Profile'
+import ProductList from '@/pages/ProductList'
+import ProductDetails from '@/pages/ProductDetails'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
 import { useContext } from 'react'
-import { AppContext } from '../contexts/app.context'
-import path from '../constants/path'
+import { AppContext } from '@/contexts/app.context'
+import path from '@/constants/path'
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useContext(AppContext)

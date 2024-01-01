@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
-import productApi from '../../api/product'
-import ProductRating from '../../components/ProductRating'
-import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '../../utils/utils'
-import InputNumber from '../../components/InputNumber'
+import productApi from '@/api/product'
+import ProductRating from '@/components/ProductRating'
+import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from '@/utils/utils'
+import InputNumber from '@/components/InputNumber'
 import DOMPurify from 'dompurify'
-import { Product as ProductType } from '../../types/product'
+import { Product as ProductType } from '@/types/product'
 import Product from '../ProductList/components/Product'
 
 export default function ProductDetails() {

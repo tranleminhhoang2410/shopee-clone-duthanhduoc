@@ -1,5 +1,5 @@
-import { AuthResponse } from '../types/auth'
-import http from '../utils/http'
+import { AuthResponse } from '@/types/auth'
+import http from '@/utils/http'
 
 const authApi = {
   registerAccount: (body: { email: string; password: string }) => http.post<AuthResponse>('/register', body),

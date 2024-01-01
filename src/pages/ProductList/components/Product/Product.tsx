@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Product as Props } from '../../../../types/product'
-import { formatCurrency, formatNumberToSocialStyle, generateNameId } from '../../../../utils/utils'
-import ProductRating from '../../../../components/ProductRating'
-import path from '../../../../constants/path'
+import { Product as Props } from '@/types/product'
+import { formatCurrency, formatNumberToSocialStyle, generateNameId } from '@/utils/utils'
+import ProductRating from '@/components/ProductRating'
+import path from '@/constants/path'
 
 interface ProductProps {
   product: Props

@@ -1,6 +1,6 @@
-import { Category } from '../types/category'
-import { SuccessResponse } from '../types/utils'
-import http from '../utils/http'
+import { Category } from '@/types/category'
+import { SuccessResponse } from '@/types/utils'
+import http from '@/utils/http'
 
 const URL = 'categories'
 

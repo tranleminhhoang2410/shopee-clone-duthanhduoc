@@ -1,6 +1,6 @@
-import { Product, ProductList, ProductListConfig } from '../types/product'
-import { SuccessResponse } from '../types/utils'
-import http from '../utils/http'
+import { Product, ProductList, ProductListConfig } from '@/types/product'
+import { SuccessResponse } from '@/types/utils'
+import http from '@/utils/http'
 
 const URL = 'products'
 
