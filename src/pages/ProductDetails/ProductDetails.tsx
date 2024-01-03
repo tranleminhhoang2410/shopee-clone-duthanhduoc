@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '@/api/product'
 import ProductRating from '@/components/ProductRating'
@@ -8,6 +8,7 @@ import QuantityController from '@/components/QuantityController'
 import DOMPurify from 'dompurify'
 import { Product as ProductType } from '@/types/product'
 import Product from '../ProductList/components/Product'
+import purchaseApi from '@/api/purchase'
 
 export default function ProductDetails() {
   const [buyCount, setBuyCount] = useState(1)
@@ -35,7 +36,10 @@ export default function ProductDetails() {
     enabled: Boolean(product),
     staleTime: 3 * 60 * 1000
   })
-  console.log(productsData)
+
+  const addToCartMutation = useMutation({
+    mutationFn: (body: { product_id: string; buy_count: number }) => purchaseApi.addToCart(body)
+  })
   useEffect(() => {
     if (product && product.images.length > 0) {
       setActiveImage(product.images[0])
@@ -79,6 +83,10 @@ export default function ProductDetails() {
 
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
+  }
+
+  const addToCart = () => {
+    addToCartMutation.mutate({ buy_count: buyCount, product_id: product?._id as string })
   }
 
   if (!product) return null
@@ -183,7 +191,10 @@ export default function ProductDetails() {
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵnqQ</div>
               </div>
               <div className='mt-8 flex items-center'>
-                <button className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'>
+                <button
+                  onClick={addToCart}
+                  className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'

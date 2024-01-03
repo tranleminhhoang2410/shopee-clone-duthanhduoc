@@ -1,6 +1,6 @@
 import { Link, createSearchParams, useNavigate } from 'react-router-dom'
 import Popover from '../Popover'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import authApi from '@/api/auth'
@@ -10,6 +10,9 @@ import { useForm } from 'react-hook-form'
 import { Schema, schema } from '@/utils/validation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
+import { purchaseStatus } from '@/constants/purchase'
+import purchaseApi from '@/api/purchase'
+import noProduct from '@/assets/images/no-product.png'
 
 type FormData = Pick<Schema, 'name'>
 
@@ -35,6 +38,16 @@ export default function Header() {
       setProfile(null)
     }
   })
+
+  //Khi chuyển trang thì header chị re-render chứ không bị unmount - mount lại
+  // Trừ trường hợp logout rồi vào Register Layout rồi vào lại
+  // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cần thiết phải set stale: infinity
+  const { data: purchaseInCartData } = useQuery({
+    queryKey: ['purchases', { status: purchaseStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+  })
+
+  const purchaseInCart = purchaseInCartData?.data.data
 
   const handleLogout = () => logoutMutation.mutate()
 
@@ -183,32 +196,41 @@ export default function Header() {
             <Popover
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w[400px] text-sm'>
-                  <div className='p-2'>
-                    <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
-                    <div className='mt-5'>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lifq9ovyl3o2ab_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>Nồi niêu xoong chảo</div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>500.000</span>
-                        </div>
+                  {purchaseInCart ? (
+                    <div className='p-2'>
+                      <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
+                      <div className='mt-5'>
+                        {purchaseInCart.map((purchase) => (
+                          <div className='mt-4 flex' key={purchase._id}>
+                            <div className='flex-shrink-0'>
+                              <img
+                                src={purchase.product.image}
+                                alt={purchase.product.name}
+                                className='w-11 h-11 object-cover'
+                              />
+                            </div>
+                            <div className='flex-grow ml-2 overflow-hidden'>
+                              <div className='truncate'>{purchase.product.name}</div>
+                            </div>
+                            <div className='ml-2 flex-shrink-0'>
+                              <span className='text-orange'>{purchase.price}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className='flex mt-6 items-center justify-between'>
+                        <div className='capitalize text-xs'>Thêm vào giỏ hàng</div>
+                        <button className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'>
+                          Xem giỏ hàng
+                        </button>
                       </div>
                     </div>
-                    <div className='flex mt-6 items-center justify-between'>
-                      <div className='capitalize text-xs'>Thêm vào giỏ hàng</div>
-                      <button className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'>
-                        Xem giỏ hàng
-                      </button>
+                  ) : (
+                    <div className='p-2'>
+                      <img src={noProduct} alt='no purchase' />
                     </div>
-                  </div>
+                  )}
                 </div>
               }
             >
