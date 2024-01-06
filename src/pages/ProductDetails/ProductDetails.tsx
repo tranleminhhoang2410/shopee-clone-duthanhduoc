@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import productApi from '@/api/product'
 import ProductRating from '@/components/ProductRating'
@@ -9,6 +9,8 @@ import DOMPurify from 'dompurify'
 import { Product as ProductType } from '@/types/product'
 import Product from '../ProductList/components/Product'
 import purchaseApi from '@/api/purchase'
+import { purchasesStatus } from '@/constants/purchase'
+import { toast } from 'react-toastify'
 
 export default function ProductDetails() {
   const [buyCount, setBuyCount] = useState(1)
@@ -27,6 +29,7 @@ export default function ProductDetails() {
     () => (product ? product?.images.slice(...currentIndexImages) : []),
     [product, currentIndexImages]
   )
+  const queryClient = useQueryClient()
   const queryConfig = { limit: '20', page: '1', category: product?.category._id }
   const { data: productsData } = useQuery({
     queryKey: ['products', queryConfig],
@@ -86,7 +89,15 @@ export default function ProductDetails() {
   }
 
   const addToCart = () => {
-    addToCartMutation.mutate({ buy_count: buyCount, product_id: product?._id as string })
+    addToCartMutation.mutate(
+      { buy_count: buyCount, product_id: product?._id as string },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message, { autoClose: 1000 })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+        }
+      }
+    )
   }
 
   if (!product) return null

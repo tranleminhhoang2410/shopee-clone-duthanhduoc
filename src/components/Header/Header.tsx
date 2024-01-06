@@ -10,14 +10,15 @@ import { useForm } from 'react-hook-form'
 import { Schema, schema } from '@/utils/validation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
-import { purchaseStatus } from '@/constants/purchase'
+import { purchasesStatus } from '@/constants/purchase'
 import purchaseApi from '@/api/purchase'
 import noProduct from '@/assets/images/no-product.png'
+import { formatCurrency } from '@/utils/utils'
 
 type FormData = Pick<Schema, 'name'>
 
 const nameSchema = schema.pick(['name'])
-
+const MAX_PURCHASE = 5
 export default function Header() {
   const queryConfig = useQueryConfig()
   const navigate = useNavigate()
@@ -43,8 +44,8 @@ export default function Header() {
   // Trừ trường hợp logout rồi vào Register Layout rồi vào lại
   // Nên các query này sẽ không bị inactive => Không bị gọi lại => Không cần thiết phải set stale: infinity
   const { data: purchaseInCartData } = useQuery({
-    queryKey: ['purchases', { status: purchaseStatus.inCart }],
-    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+    queryKey: ['purchases', { status: purchasesStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
   })
 
   const purchaseInCart = purchaseInCartData?.data.data
@@ -192,7 +193,7 @@ export default function Header() {
               </button>
             </div>
           </form>
-          <div className='col-span-1 justify-self-end'>
+          <div className='col-span-1 justify-self-end relative'>
             <Popover
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w[400px] text-sm'>
@@ -200,8 +201,8 @@ export default function Header() {
                     <div className='p-2'>
                       <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
                       <div className='mt-5'>
-                        {purchaseInCart.map((purchase) => (
-                          <div className='mt-4 flex' key={purchase._id}>
+                        {purchaseInCart.slice(0, MAX_PURCHASE).map((purchase) => (
+                          <div className='mt-2 py-2 flex hover:bg-gray-100' key={purchase._id}>
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchase.product.image}
@@ -213,22 +214,26 @@ export default function Header() {
                               <div className='truncate'>{purchase.product.name}</div>
                             </div>
                             <div className='ml-2 flex-shrink-0'>
-                              <span className='text-orange'>{purchase.price}</span>
+                              <span className='text-orange'>₫{formatCurrency(purchase.product.price)}</span>
                             </div>
                           </div>
                         ))}
                       </div>
 
                       <div className='flex mt-6 items-center justify-between'>
-                        <div className='capitalize text-xs'>Thêm vào giỏ hàng</div>
+                        <div className='capitalize text-xs'>
+                          {purchaseInCart.length > MAX_PURCHASE && purchaseInCart.length - MAX_PURCHASE} Thêm hàng vào
+                          giỏ
+                        </div>
                         <button className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'>
                           Xem giỏ hàng
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <div className='p-2'>
-                      <img src={noProduct} alt='no purchase' />
+                    <div className='p-2 w-[300px] h-[300px] flex items-center justify-center p-2'>
+                      <img src={noProduct} alt='no purchase' className='h-24 w-24' />
+                      <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                     </div>
                   )}
                 </div>
@@ -249,6 +254,9 @@ export default function Header() {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
                   />
                 </svg>
+                <span className='absolute top-[-4px] left-[16px] rounded-full px-[9px] py-[1px] bg-white text-orange text-xs'>
+                  {purchaseInCart?.length}
+                </span>
               </Link>
             </Popover>
           </div>
