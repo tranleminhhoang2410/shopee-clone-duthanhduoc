@@ -6,6 +6,7 @@ import ProductList from '@/pages/ProductList'
 import ProductDetails from '@/pages/ProductDetails'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import Cart from '@/pages/Cart'
 import { useContext } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import path from '@/constants/path'
@@ -48,6 +49,14 @@ export default function useRoutesElement() {
           element: (
             <MainLayout>
               <Profile />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.cart,
+          element: (
+            <MainLayout>
+              <Cart />
             </MainLayout>
           )
         }
