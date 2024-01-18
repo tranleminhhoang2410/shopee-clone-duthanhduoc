@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import RegisterLayout from '@/layouts/RegisterLayout/RegisterLayout'
 import MainLayout from '@/layouts/MainLayout'
+import CartLayout from '@/layouts/CartLayout'
 import Profile from '@/pages/Profile'
 import ProductList from '@/pages/ProductList'
 import ProductDetails from '@/pages/ProductDetails'
@@ -55,9 +56,9 @@ export default function useRoutesElement() {
         {
           path: path.cart,
           element: (
-            <MainLayout>
+            <CartLayout>
               <Cart />
-            </MainLayout>
+            </CartLayout>
           )
         }
       ]
