@@ -27,10 +27,10 @@ export default function Header() {
   const purchaseInCart = purchaseInCartData?.data.data
 
   return (
-    <div className='pb-5 pt-2 bg-[linear-gradient(-180deg,#f53d2d,#f63)] text-white'>
+    <div className='bg-[linear-gradient(-180deg,#f53d2d,#f63)] pb-5 pt-2 text-white'>
       <div className='container'>
         <NavHeader />
-        <div className='grid grid-cols-12 gap-4 mt-4 items-end'>
+        <div className='mt-4 grid grid-cols-12 items-end gap-4'>
           <Link to='/' className='col-span-2'>
             <svg viewBox='0 0 192 65' className='h-11 w-full fill-white'>
               <g fill-rule='evenodd'>
@@ -39,21 +39,21 @@ export default function Header() {
             </svg>
           </Link>
           <form className='col-span-9' onSubmit={onSubmitSearch}>
-            <div className='bg-white rounded-sm p-1 flex'>
+            <div className='flex rounded-sm bg-white p-1'>
               <input
                 type='text'
-                className='text-black px-3 py-2 flex-grow border-none outline-none bg-transparent'
+                className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
                 placeholder='Free Ship Đơn Từ 0Đ'
                 {...register('name')}
               />
-              <button className='rounded-sm py-2 px-6 flex-shrink-0 bg-orange hover:opacity-90'>
+              <button className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-6 h-6'
+                  className='h-6 w-6'
                 >
                   <path
                     strokeLinecap='round'
@@ -64,24 +64,24 @@ export default function Header() {
               </button>
             </div>
           </form>
-          <div className='col-span-1 justify-self-end relative'>
+          <div className='relative col-span-1 justify-self-end'>
             <Popover
               renderPopover={
-                <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w[400px] text-sm'>
-                  {purchaseInCart ? (
+                <div className='max-w[400px] relative rounded-sm border border-gray-200 bg-white text-sm shadow-md'>
+                  {purchaseInCart && purchaseInCart.length > 0 ? (
                     <div className='p-2'>
-                      <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
+                      <div className='capitalize text-gray-400'>Sản phẩm mới thêm</div>
                       <div className='mt-5'>
                         {purchaseInCart.slice(0, MAX_PURCHASE).map((purchase) => (
-                          <div className='mt-2 py-2 flex hover:bg-gray-100' key={purchase._id}>
+                          <div className='mt-2 flex py-2 hover:bg-gray-100' key={purchase._id}>
                             <div className='flex-shrink-0'>
                               <img
                                 src={purchase.product.image}
                                 alt={purchase.product.name}
-                                className='w-11 h-11 object-cover'
+                                className='h-11 w-11 object-cover'
                               />
                             </div>
-                            <div className='flex-grow ml-2 overflow-hidden'>
+                            <div className='ml-2 flex-grow overflow-hidden'>
                               <div className='truncate'>{purchase.product.name}</div>
                             </div>
                             <div className='ml-2 flex-shrink-0'>
@@ -91,21 +91,21 @@ export default function Header() {
                         ))}
                       </div>
 
-                      <div className='flex mt-6 items-center justify-between'>
-                        <div className='capitalize text-xs'>
+                      <div className='mt-6 flex items-center justify-between'>
+                        <div className='text-xs capitalize'>
                           {purchaseInCart.length > MAX_PURCHASE && purchaseInCart.length - MAX_PURCHASE} Thêm hàng vào
                           giỏ
                         </div>
                         <Link
                           to={path.cart}
-                          className='capitalize bg-orange hover:bg-opacity-90 px-4 py-2 rounded-sm text-white'
+                          className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'
                         >
                           Xem giỏ hàng
                         </Link>
                       </div>
                     </div>
                   ) : (
-                    <div className='p-2 w-[300px] h-[300px] flex-column items-center justify-center p-2'>
+                    <div className='flex-column h-[300px] w-[300px] items-center justify-center p-2 p-2'>
                       <img src={noProduct} alt='no purchase' className='h-24 w-24' />
                       <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                     </div>
@@ -120,7 +120,7 @@ export default function Header() {
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
-                  className='w-8 h-8'
+                  className='h-8 w-8'
                 >
                   <path
                     strokeLinecap='round'
@@ -128,8 +128,8 @@ export default function Header() {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
                   />
                 </svg>
-                {purchaseInCart && (
-                  <span className='absolute top-[-4px] left-[16px] rounded-full px-[9px] py-[1px] bg-white text-orange text-xs'>
+                {purchaseInCart && purchaseInCart.length > 0 && (
+                  <span className='absolute left-[16px] top-[-4px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
                     {purchaseInCart?.length}
                   </span>
                 )}
