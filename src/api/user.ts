@@ -2,9 +2,9 @@ import { User } from '@/types/user'
 import { SuccessResponse } from '@/types/utils'
 import http from '@/utils/http'
 
-interface BodyUpdateProfile extends Omit<User, '_id' | 'role' | 'createdAt' | 'updatedAt' | 'email'> {
-  password: string
-  newPassword: string
+interface BodyUpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
+  password?: string
+  newPassword?: string
 }
 
 const userApi = {
@@ -16,7 +16,9 @@ const userApi = {
   },
   uploadAvatar(body: FormData) {
     return http.post<SuccessResponse<string>>('user/upload-avatar', body, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
   }
 }
