@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import { toast } from 'react-toastify'
 import HttpStatusCode from '@/constants/httpStatusCode'
 import { AuthResponse } from '@/types/auth'
@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 )
 
 instance.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     const { url } = response.config
     if (url === path.login || url === path.register) {
       const data = response.data as AuthResponse
