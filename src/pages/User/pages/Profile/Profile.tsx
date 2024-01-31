@@ -13,7 +13,7 @@ import { AppContext } from '@/contexts/app.context'
 import { setProfileToLS } from '@/utils/auth'
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils'
-import config from '@/constants/config'
+import InputFile from '@/components/InputFile'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 type FormDataError = Omit<FormData, 'date_of_birth'> & {
@@ -23,7 +23,6 @@ type FormDataError = Omit<FormData, 'date_of_birth'> & {
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
-  const fileInputRef = useRef<HTMLInputElement>(null)
   const { setProfile } = useContext(AppContext)
   const [file, setFile] = useState<File>()
 
@@ -109,17 +108,8 @@ export default function Profile() {
     }
   })
 
-  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileFromLocal = event.target.files?.[0]
-    if (fileFromLocal && (fileFromLocal.size >= config.maxImageSize || !fileFromLocal.type.includes('image'))) {
-      toast.error('File không đúng định dạng quy định')
-    } else {
-      setFile(fileFromLocal)
-    }
-  }
-
-  const handleUpload = () => {
-    fileInputRef.current?.click()
+  const handleChangeFile = (file?: File) => {
+    setFile(file)
   }
 
   return (
@@ -202,21 +192,7 @@ export default function Profile() {
             <div className='my-5 h-24 w-24'>
               <img src={previewImage || getAvatarUrl(avatar)} alt='avatar' className='h-full w-full object-cover' />
             </div>
-            <input
-              ref={fileInputRef}
-              className='hidden'
-              type='file'
-              accept='.jpg, .jpeg, .png'
-              onChange={onFileChange}
-              onClick={(event) => ((event.target as any).value = null)}
-            />
-            <button
-              className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
-              type='button'
-              onClick={handleUpload}
-            >
-              Chọn ảnh
-            </button>
+            <InputFile onChange={handleChangeFile} />
             <div className='mt-3 text-gray-400'>
               <div>Dụng lượng file tối đa 1 MB</div>
               <div>Định dạng:.JPEG, .PNG</div>
