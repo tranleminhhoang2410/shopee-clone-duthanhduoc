@@ -13,6 +13,7 @@ import { AppContext } from '@/contexts/app.context'
 import { setProfileToLS } from '@/utils/auth'
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from '@/utils/utils'
 import { ErrorResponse } from '@/types/utils'
+import config from '@/constants/config'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 type FormDataError = Omit<FormData, 'date_of_birth'> & {
@@ -109,7 +110,11 @@ export default function Profile() {
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0]
-    setFile(fileFromLocal)
+    if (fileFromLocal && (fileFromLocal.size >= config.maxImageSize || !fileFromLocal.type.includes('image'))) {
+      toast.error('File không đúng định dạng quy định')
+    } else {
+      setFile(fileFromLocal)
+    }
   }
 
   const handleUpload = () => {
@@ -202,6 +207,7 @@ export default function Profile() {
               type='file'
               accept='.jpg, .jpeg, .png'
               onChange={onFileChange}
+              onClick={(event) => ((event.target as any).value = null)}
             />
             <button
               className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
