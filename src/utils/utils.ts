@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import HttpStatusCode from '@/constants/httpStatusCode'
+import userImage from '@/assets/images/user.svg'
 
 export const isAxiosError = <T>(error: unknown): error is AxiosError<T> => axios.isAxiosError(error)
 
@@ -31,3 +32,6 @@ export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split('-i-')
   return arr[arr.length - 1]
 }
+
+export const getAvatarUrl = (avatarName?: string) =>
+  avatarName ? `${import.meta.env.VITE_REACT_API_URL}images/${avatarName}` : userImage
