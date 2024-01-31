@@ -70,6 +70,7 @@ export default function Profile() {
       setValue('name', profile.name)
       setValue('phone', profile.phone)
       setValue('address', profile.address)
+      setValue('avatar', profile.avatar || '')
       setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1900, 0, 1))
     }
   }, [profile, setValue])
