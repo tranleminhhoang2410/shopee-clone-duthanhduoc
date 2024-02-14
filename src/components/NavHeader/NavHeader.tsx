@@ -8,7 +8,6 @@ import authApi from '@/api/auth'
 import { purchasesStatus } from '@/constants/purchase'
 import path from '@/constants/path'
 
-import userImage from '@/assets/images/user.svg'
 import { getAvatarUrl } from '@/utils/utils'
 
 export default function NavHeader() {

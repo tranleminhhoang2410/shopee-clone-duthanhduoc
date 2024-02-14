@@ -2,8 +2,6 @@ import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-
-import userImage from '@/assets/images/user.svg'
 import { getAvatarUrl } from '@/utils/utils'
 import classNames from 'classnames'
 

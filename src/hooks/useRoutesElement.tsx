@@ -2,20 +2,29 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import RegisterLayout from '@/layouts/RegisterLayout/RegisterLayout'
 import MainLayout from '@/layouts/MainLayout'
 import CartLayout from '@/layouts/CartLayout'
-import Profile from '@/pages/User/pages/Profile'
-import ProductList from '@/pages/ProductList'
-import ProductDetails from '@/pages/ProductDetails'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Cart from '@/pages/Cart'
-import { useContext } from 'react'
+// import ProductDetails from '@/pages/ProductDetails'
+// import Login from '@/pages/Login'
+// import Profile from '@/pages/User/pages/Profile'
+// import ProductList from '@/pages/ProductList'
+// import Register from '@/pages/Register'
+// import Cart from '@/pages/Cart'
+// import ChangePassword from '@/pages/User/pages/ChangePassword'
+// import HistoryPurchase from '@/pages/User/pages/HistoryPurchase'
+// import NotFound from '@/pages/User/pages/NotFound'
+import { useContext, lazy, Suspense } from 'react'
 import { AppContext } from '@/contexts/app.context'
 import path from '@/constants/path'
 import UserLayout from '@/pages/User/layouts/UserLayout'
-import ChangePassword from '@/pages/User/pages/ChangePassword'
-import HistoryPurchase from '@/pages/User/pages/HistoryPurchase'
-import NotFound from '@/pages/User/pages/NotFound'
 
+const Login = lazy(() => import('@/pages/Login'))
+const Register = lazy(() => import('@/pages/Register'))
+const ProductList = lazy(() => import('@/pages/ProductList'))
+const Profile = lazy(() => import('@/pages/User/pages/Profile'))
+const ProductDetails = lazy(() => import('@/pages/ProductDetails'))
+const Cart = lazy(() => import('@/pages/Cart'))
+const ChangePassword = lazy(() => import('@/pages/User/pages/ChangePassword'))
+const HistoryPurchase = lazy(() => import('@/pages/User/pages/HistoryPurchase'))
+const NotFound = lazy(() => import('@/pages/NotFound'))
 const ProtectedRoute = () => {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
@@ -32,7 +41,9 @@ export default function useRoutesElement() {
       path: '*',
       element: (
         <MainLayout>
-          <NotFound />
+          <Suspense>
+            <NotFound />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -41,7 +52,9 @@ export default function useRoutesElement() {
       index: true,
       element: (
         <MainLayout>
-          <ProductList />
+          <Suspense>
+            <ProductList />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -49,7 +62,9 @@ export default function useRoutesElement() {
       path: path.productDetails,
       element: (
         <MainLayout>
-          <ProductDetails />
+          <Suspense>
+            <ProductDetails />
+          </Suspense>
         </MainLayout>
       )
     },
@@ -75,15 +90,27 @@ export default function useRoutesElement() {
           children: [
             {
               path: path.profile,
-              element: <Profile />
+              element: (
+                <Suspense>
+                  <Profile />
+                </Suspense>
+              )
             },
             {
               path: path.changePassword,
-              element: <ChangePassword />
+              element: (
+                <Suspense>
+                  <ChangePassword />
+                </Suspense>
+              )
             },
             {
               path: path.historyPurchase,
-              element: <HistoryPurchase />
+              element: (
+                <Suspense>
+                  <HistoryPurchase />
+                </Suspense>
+              )
             }
           ]
         }
@@ -97,7 +124,9 @@ export default function useRoutesElement() {
           path: path.login,
           element: (
             <RegisterLayout>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </RegisterLayout>
           )
         },
@@ -105,7 +134,9 @@ export default function useRoutesElement() {
           path: path.register,
           element: (
             <RegisterLayout>
-              <Register />
+              <Suspense>
+                <Register />
+              </Suspense>
             </RegisterLayout>
           )
         }
