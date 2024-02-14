@@ -14,6 +14,7 @@ import path from '@/constants/path'
 import UserLayout from '@/pages/User/layouts/UserLayout'
 import ChangePassword from '@/pages/User/pages/ChangePassword'
 import HistoryPurchase from '@/pages/User/pages/HistoryPurchase'
+import NotFound from '@/pages/User/pages/NotFound'
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useContext(AppContext)
@@ -27,6 +28,14 @@ const RejectedRoute = () => {
 
 export default function useRoutesElement() {
   const routeElements = useRoutes([
+    {
+      path: '*',
+      element: (
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      )
+    },
     {
       path: path.home,
       index: true,
