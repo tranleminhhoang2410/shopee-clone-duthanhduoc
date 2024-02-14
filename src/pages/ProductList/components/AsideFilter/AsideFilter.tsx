@@ -11,7 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { ObjectSchema } from 'yup'
 import { NoUndefinedField } from '@/types/utils'
 import RatingStarts from '../RatingStarts'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 
 interface AsideFilterProps {
   queryConfig: QueryConfig
@@ -73,7 +73,7 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
       >
         Tất cả danh mục
       </Link>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <ul>
         {categories.map((categoryItem) => {
           const isActive = category === categoryItem._id
@@ -88,11 +88,11 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
                   }).toString()
                 }}
                 className={classNames('relative px-2', {
-                  'text-orange font-semibold': isActive
+                  'font-semibold text-orange': isActive
                 })}
               >
                 {isActive && (
-                  <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
+                  <svg viewBox='0 0 4 7' className='absolute left-[-10px] top-1 h-2 w-2 fill-orange'>
                     <polygon points='4 3.5 0 0 0 7' />
                   </svg>
                 )}
@@ -102,10 +102,10 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
           )
         })}
       </ul>
-      <Link to={path.home} className='flex items-center font-bold mt-4 uppercase'>
+      <Link to={path.home} className='mt-4 flex items-center font-bold uppercase'>
         Bộ lọc tìm kiếm
       </Link>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <div className='my-5'>
         <div>Khoảng giá</div>
         <form className='mt-2' onSubmit={onSubmit}>
@@ -152,19 +152,19 @@ export default function AsideFilter({ queryConfig, categories }: AsideFilterProp
               }}
             />
           </div>
-          <div className='mt-1 min-h-[1.25rem] text-sm text-red-600 text-center'>{errors.price_min?.message}</div>
-          <Button className='w-full mt-2 p-2 uppercase bg-orange text-white text-sm hover:bg-orange-80 flex justify-center items-center'>
+          <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>{errors.price_min?.message}</div>
+          <Button className='hover:bg-orange-80 mt-2 flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white'>
             Áp dụng
           </Button>
         </form>
       </div>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <div className='text-sm'>Đánh giá</div>
       <RatingStarts queryConfig={queryConfig} />
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <Button
         onClick={handleRemoveAll}
-        className='w-full mt-2 p-2 uppercase bg-orange text-white text-sm hover:bg-orange-80 flex justify-center items-center'
+        className='hover:bg-orange-80 mt-2 flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white'
       >
         Xóa tất cả
       </Button>

@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import { schema, Schema } from '@/utils/validation'
 import Input from '@/components/Input'
 import authApi from '@/api/auth'
@@ -71,9 +71,9 @@ export default function Register() {
   return (
     <div className='bg-orange'>
       <div className='container'>
-        <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-32 lg:pr-10'>
+        <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='p-10 rounded bg-white shadow-sm' onSubmit={onSubmit} noValidate>
+            <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit} noValidate>
               <span className='text-2xl'>Đăng Ký</span>
               <Input
                 name='email'
@@ -106,14 +106,14 @@ export default function Register() {
                   isLoading={registerAccountMutation.isPending}
                   disabled={registerAccountMutation.isPending}
                   type='submit'
-                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex justify-center items-center'
+                  className='flex w-full items-center justify-center bg-red-500 px-2 py-4 text-center text-sm uppercase text-white hover:bg-red-600'
                 >
                   Đăng ký
                 </Button>
               </div>
-              <div className='flex item-center justify-center mt-8'>
+              <div className='item-center mt-8 flex justify-center'>
                 <span className='text-gray-300'>Bạn đã có tài khoản?</span>
-                <Link className='text-red-400 ml-2' to='/login'>
+                <Link className='ml-2 text-red-400' to='/login'>
                   Đăng nhập
                 </Link>
               </div>
