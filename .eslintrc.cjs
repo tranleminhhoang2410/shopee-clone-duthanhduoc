@@ -3,14 +3,7 @@ const path = require('path')
 module.exports = {
   root: true,
   env: { browser: true, es2015: true, node: true },
-  extends: [
-    'eslint:recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'eslint-config-prettier',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:react-hooks/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended', 'eslint-config-prettier', 'prettier', 'plugin:storybook/recommended'],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', 'prettier'],
